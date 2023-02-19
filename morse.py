@@ -27,19 +27,20 @@ def play_sound(r: str):
 
 def play_vibration(r: str):
     for i in range(len(r)):
-        sleep(0.1)
+        sleep(0.4)
         if r[i] == "\n":
             sleep(1.5)
         elif r[i] == " ": sleep(0.5); return 0
 
         elif r[i] == ".":
-            os.system("sudo python ./util.py /sys/class/leds/vibrator/duration 200")
+            os.system("sudo python ./util.py /sys/class/leds/vibrator/duration 150")
             os.system("sudo python ./util.py /sys/class/leds/vibrator/activate 1")
-            return 0
+
+            
         elif r[i] == "-":
-            os.system("sudo python ./util.py /sys/class/leds/vibrator/duration 500")
+            os.system("sudo python ./util.py /sys/class/leds/vibrator/duration 400")
             os.system("sudo python ./util.py /sys/class/leds/vibrator/activate 1")
-            return 0
+
 
         else: print(f"{r[i]} : not found"); return 0
 
