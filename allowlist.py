@@ -1,1 +1,1 @@
-AllowList = ["com.discord", "com.whatsapp","com.google.android.youtube"]
+AllowList = ["com.discord", "com.whatsapp"]
