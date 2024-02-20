@@ -13,7 +13,8 @@ output = False
 human = False
 debug = False
 
-Done = []
+DoneKeys = []
+NewDoneKeys = []
 
 for i in range(len(sys.argv)):
     if sys.argv[i] == "-s": sound   = True; morse.frequency = sys.argv[i+1]
@@ -25,16 +26,22 @@ for i in range(len(sys.argv)):
 while True:
     x = subprocess.run(['termux-notification-list'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     x = json.loads(x)
-    
-    for e in range(len(Done)):
+   
+    NewDoneKeys = []
+
+
+    for e in range(len(DoneKeys)):
+        if len(DoneKeys) == 0: break
         for i in range(len(x)):
-            if Done[e] not in x[i]["id"]:
-                del Done[e]
-                e -= 1
-    
+            print(f"{e} : {i}")
+            if DoneKeys[e] == x[i]["key"]:
+                NewDoneKeys += [x[i]["key"]]
+
+    DoneKeys = NewDoneKeys
+
 
     for i in range(len(x)):
-        if x[i]["packageName"] in AllowList and x[i]["id"] not in Done:
+        if x[i]["packageName"] in AllowList and x[i]["key"] not in NewDoneKeys:
 
             text = x[i]["packageName"].replace("com","").replace(".","") + "\n" + x[i]["title"] + "\n" + x[i]["content"]
 
@@ -46,6 +53,10 @@ while True:
             if vibrate: morse.play_vibration(text_in_morse)
             if human:   morse.play_human(text)
             
-            Done += [x[i]["id"]]
-
-    t.sleep(10)
+            for e in range(len(DoneKeys)):
+                if len(DoneKeys) == 0: break
+                for i in range(len(x)):
+                    if DoneKeys[e] != x[i]["key"]:
+                        DoneKeys += [x[i]["key"]]
+    
+    t.sleep(5)
