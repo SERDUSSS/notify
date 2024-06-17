@@ -1,1 +1,0 @@
-termux-notification --button1 test2 --button1-action "touch /data/data/com.termux/files/home/notify/test" --alert-once --ongoing --id 5379 -c "Notify"
